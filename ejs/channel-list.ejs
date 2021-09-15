@@ -1,0 +1,91 @@
+<html lang="en">
+
+<style>
+    * {
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .user-profile {
+        width: 40px;
+        height: 40px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    .channel-card {
+        box-shadow: 2px 2px 10px gray;
+        padding: 10px;
+        border-radius: 10px;
+    }
+</style>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+  
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+  
+    <!-- Poppins from google fonts  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet" />
+  
+    <!-- fontawesome -->
+    <script src="https://kit.fontawesome.com/95105048e2.js" crossorigin="anonymous"></script>
+  
+    <title><%= query%> - Search Results</title>
+</head>
+<body>
+    <nav class="navbar w-100 bg-dark text-white">
+        <div class="navbar-brand">
+            <h4>YouTube Studio</h4>
+        </div>
+        <form action="/search-channel" method="get" class="col-md-4 d-flex">
+            <input type="text" class="form-control" name="username" placeholder="Search YouTube Channel">
+            <button type="submit" class="btn">Search</button>
+        </form>
+        <div class="px-3">
+            <a href="http://localhost:5000/logout" class="user-profile btn-outline-light">
+              <i class="fas fa-sign-out-alt"></i>
+            </a>
+        </div>
+        <div class="px-3">
+            <a href="http://localhost:5000/home" class="user-profile btn-outline-light">
+              <i class="fas fa-home"></i>
+            </a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="mt-4">
+            <div class="card-header bg-dark text-white">
+              <h3>Search Results for - <%= query %></h3>
+            </div>
+            <div class="row card-body" id="uploads">
+              <% channels.forEach(channel => { %>
+                <a href="https://www.youtube.com/channel/<%= channel.id.channelId%>" target="_blank" class="col-12 col-md-6 col-lg-3">
+                    <div class="channel-card">
+                      <img src="<%= channel.snippet.thumbnails.high.url%>" alt="channel-thumbnail" width="100%">
+                    </div>
+                    <div class="card-body px-0 text-center">
+                      <h6>
+                        <%= channel.snippet.title%>
+                      </h6>
+                      <p class="text-secondary" style="font-size: 10px;">
+                        Joined : <%= new Date(channel.snippet.publishedAt).toLocaleString()%>
+                      </p>
+                    </div>
+                </a>
+              <% }) %> 
+            </div>
+        </section>
+    </main>
+    
+</body>
+</html>

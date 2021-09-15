@@ -1,0 +1,51 @@
+<html lang="en">
+
+<style>
+    * {
+        font-family: 'Poppins', sans-serif;
+    }
+</style>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+  
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+  
+    <!-- Poppins from google fonts  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet" />
+  
+    <!-- fontawesome -->
+    <script src="https://kit.fontawesome.com/95105048e2.js" crossorigin="anonymous"></script>
+  
+    <title>Studio - Home</title>
+</head>
+<body>
+    <nav class="navbar w-100 bg-dark text-white">
+        <div class="navbar-brand">
+            <h4>YouTube Studio</h4>
+        </div>
+        <div class="px-3">
+            <a href="http://localhost:5000/logout" class="user-profile btn-outline-light">
+              <i class="fas fa-sign-out-alt"></i>
+            </a>
+        </div>
+    </nav>
+    <main class="d-flex flex-column align-items-center justify-content-center container">
+        <form action="/search-channel" method="get" class="col-md-4 d-flex my-3" style="max-width: 600px;">
+            <input type="text" class="form-control" name="username" placeholder="Search YouTube Channel">
+            <button type="submit" class="btn">Search</button>
+        </form>
+        <h5>OR</h5>
+        <div class="m-2 p-2">
+            <a href="http://localhost:5000/my-channel">Click Here to Jump To Your Channel</a>
+        </div>
+    </main>
+</body>
+</html>

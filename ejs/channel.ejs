@@ -1,0 +1,156 @@
+<html lang="en">
+
+<style>
+    * {
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .user-profile {
+        width: 40px;
+        height: 40px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    .channel-logo {
+        margin: auto;
+        box-shadow: 2px 2px 10px gray;
+        width: 5em;
+        height: 5em;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    .video-card {
+        box-shadow: 2px 2px 10px gray;
+    }
+
+    .channel-card {
+        box-shadow: inset 2px 2px 10px gray;
+        padding: 20px 0px;
+        border-radius: 25px;
+    }
+</style>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+  
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+  
+    <!-- Poppins from google fonts  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet" />
+  
+    <!-- fontawesome -->
+    <script src="https://kit.fontawesome.com/95105048e2.js" crossorigin="anonymous"></script>
+  
+    <title><%= channel.snippet.title%></title>
+</head>
+<body>
+    <nav class="navbar w-100 bg-dark text-white">
+        <div class="navbar-brand">
+            <h4>YouTube Studio</h4>
+        </div>
+        <form action="/search-channel" method="get" class="col-md-4 d-flex">
+            <input type="text" class="form-control" name="username" placeholder="Search YouTube Channel">
+            <button type="submit" class="btn">Search</button>
+        </form>
+        <div class="px-3">
+            <a href="http://localhost:5000/logout" class="user-profile btn-outline-light">
+              <i class="fas fa-sign-out-alt"></i>
+            </a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="row p-3 align-items-center justify-content-around">
+            <div class="col-12 col-md-5 channel-card">
+              <a href="https://www.youtube.com/channel/<%= channel.id%>" target="_blank">
+                <div class="channel-logo">
+                  <img src="<%= channel.snippet.thumbnails.high.url%>" alt="channel-logo" width="100%">
+                </div>
+                <br>
+                <div class="text-center">
+                  <h4><%= channel.snippet.title%></h4>
+                </div>
+              </a>
+            </div>
+            <div class="col-12 col-md-5">
+              <table class="table table-striped" style="font-size: small;">
+                <tbody>
+                  <tr>
+                    <td>Published</td>
+                    <td><%= new Date(channel.snippet.publishedAt).toLocaleString()%></td>
+                  </tr>
+                  <tr>
+                    <td>Country</td>
+                    <td><%= channel.snippet.country%></td>
+                  </tr>
+                  <tr>
+                    <td>View Count</td>
+                    <td><%= channel.statistics.viewCount%></td>
+                  </tr>
+                  <tr>
+                    <td>Subscribers</td>
+                    <td><%= channel.statistics.subscriberCount%></td>
+                  </tr>
+                  <tr>
+                    <td>Videos Uploaded</td>
+                    <td><%= channel.statistics.videoCount%></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+        </section>
+        <div class="card-footer mb-3" title="Channel Description">
+            <p id="ch-desc">
+                
+            </p>
+        </div>
+
+        <section>
+            <div class="card-header bg-dark text-white">
+              <h2>Uploaded Videos</h2>
+            </div>
+            <div class="row card-body" id="uploads">
+              <% uploads.forEach(video => { %>
+                <a href="https://www.youtube.com/watch?v=<%= video.contentDetails.videoId%>" target="_blank" class="col-12 col-md-6 col-lg-3">
+                    <div class="video-card">
+                      <img src="<%= video.snippet.thumbnails.hasOwnProperty('high') ? video.snippet.thumbnails.high.url : 'https://i.ytimg.com/vi/djwxWh2eQv0/hqdefault.jpg'%>" alt="video-thumbnail" width="100%">
+                    </div>
+                    <div class="card-body px-0 text-center">
+                      <h6>
+                        <%= video.snippet.title%>
+                      </h6>
+                      <p class="text-secondary" style="font-size: 10px;">
+                        <%= new Date(video.snippet.publishedAt).toLocaleString()%>
+                      </p>
+                    </div>
+                </a>
+              <% }) %> 
+            </div>
+        </section>
+    </main>
+
+    <script defer>
+        let description = '<%= channel.snippet.description %>'
+        if(/(http|https):\/\/[a-z]+\.[a-z]+[\/a-z]+/gi.test(description)){
+            description.match(/(http|https):\/\/[a-z]+\.[a-z]+[\/a-z]+/gi).forEach(mch => {
+                description = description.replace(mch, `<a href='${mch}' target='_blank'>${mch}</a>`) 
+            })
+        } 
+        description = description.replace(/[\n]+/g, '<br>');
+        document.getElementById('ch-desc').innerHTML = description;
+    </script>
+</body>
+</html>
